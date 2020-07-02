@@ -3,7 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Streams</title>
+
+        <title>Streamizm</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <style>
@@ -11,57 +12,51 @@
                 width: 100%;
                 height: auto;
             }
-            .video-window {
-                margin: 42px;
+            .video-wind {
+                margin: 10px;
                 width: 420px;
                 height: auto;
             }
-            .buttons {
-                margin-left: 42px;
-            }
         </style>
     </head>
-    <body>
-        <!--
-            <video class="video-window z-depth-1" autoplay loop controls muted>
-            <source src="https://mdbootstrap.com/img/video/Sail-Away.mp4" type="video/mp4" />
+    <body class="text-center">
+        <div class="container">
+            <video id="video" class="video-wind z-depth-1" autoplay loop controls>
+                <source src="http://104.248.250.36/hls/0/stream.m3u8" type="video/mp4" />
             </video>
-        -->
 
-        <video id="video" class="video-window z-depth-1" poster="/cover.jpg" autoplay loop controls>
-            <source src="http://104.248.250.36/hls/0/stream.m3u8" type="video/mp4" />
-        </video>
-
-        <div class="buttons">
-            <button id="cam1" class="btn btn-info" disabled>0</button>
-            <button id="cam1" class="btn btn-info">1</button>
-            <button id="cam1" class="btn btn-info">2</button>
-            <button id="cam1" class="btn btn-info">3</button>
-            <button id="cam1" class="btn btn-info">4</button>
-            <br>
-            <br>
-            <button id="cam1" class="btn btn-info">5</button>
-            <button id="cam1" class="btn btn-info">6</button>
-            <button id="cam1" class="btn btn-info">7</button>
-            <button id="cam1" class="btn btn-info">8</button>
-            <button id="cam1" class="btn btn-info">9</button>
+            <div class="buttons">
+                <button id="0" onclick="switch_view(this.id)" class="btn btn-info">0</button>
+                <button id="1" onclick="switch_view(this.id)" class="btn btn-info">1</button>
+                <button id="2" onclick="switch_view(this.id)" class="btn btn-info">2</button>
+                <button id="3" onclick="switch_view(this.id)" class="btn btn-info">3</button>
+                <button id="4" onclick="switch_view(this.id)" class="btn btn-info">4</button>
+                <button id="5" onclick="switch_view(this.id)" class="btn btn-info">5</button>
+                <button id="6" onclick="switch_view(this.id)" class="btn btn-info">6</button>
+                <button id="7" onclick="switch_view(this.id)" class="btn btn-info">7</button>
+                <button id="8" onclick="switch_view(this.id)" class="btn btn-info">8</button>
+                <button id="9" onclick="switch_view(this.id)" class="btn btn-info">9</button>
+            </div>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-            $(document).ready(function(){
-                    $('#next').click(function(){
-                        let video = $("#video").get(0);
+        <script type="text/javascript">
+            var disabled_button_id = 0;
+            document.getElementById(disabled_button_id).disabled = true;
 
-                        video.pause();
+            function switch_view(button_id){
+                document.getElementById(button_id).disabled = true;
+                document.getElementById(disabled_button_id).disabled = false;
+                disabled_button_id = button_id;
 
-                        $('source').attr('src','http://104.248.250.36/hls/2/stream.m3u8');
+                var video = document.getElementById('video');
+                var new_src = 'http://104.248.250.36/hls/' + button_id + '/stream.m3u8';
 
-                        video.load();
-                        video.play();
+                video.pause();
 
-                        return false;
-                    });
-                });
+                video.src = new_src;
+                video.load();
+                video.play();
+            }
         </script>
     </body>
 </html>
