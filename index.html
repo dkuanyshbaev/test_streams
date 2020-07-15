@@ -7,36 +7,18 @@
         <title>Streamizm</title>
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
         <style>
-            .video-fluid {
-                width: 100%;
-                height: auto;
-            }
-            .video-wind {
+            video {
                 margin: 10px;
                 width: 420px;
                 height: auto;
-            }
-            video {
-                width: 640px;
-                height: 360px;
             }
         </style>
     </head>
     <body class="text-center">
         <div class="container">
-            <!--
-            <video id="video" class="video-wind z-depth-1" autoplay loop controls>
-                <source src="http://104.248.250.36/hls/0/stream.m3u8" type="video/mp4" />
-            </video>
-            -->
-
             <video id="videoPlayer" controls></video>
-
-            <video id="video" class="video-wind z-depth-1" autoplay loop controls>
-                <source src="http://104.248.250.36/dash/0/stream.mpd" type="video/mp4" />
-            </video>
-
             <div class="buttons">
                 <button id="0" onclick="switch_view(this.id)" class="btn btn-info">0</button>
                 <button id="1" onclick="switch_view(this.id)" class="btn btn-info">1</button>
@@ -51,36 +33,21 @@
             </div>
         </div>
 
-
+        <script type="text/javascript" src="/dash.all.min.js"></script>
         <script type="text/javascript">
             var disabled_button_id = 0;
             document.getElementById(disabled_button_id).disabled = true;
+
+            var url = "dash/0/stream.mpd";
+            var player = dashjs.MediaPlayer().create();
+            player.initialize(document.querySelector("#videoPlayer"), url, true);
 
             function switch_view(button_id){
                 document.getElementById(button_id).disabled = true;
                 document.getElementById(disabled_button_id).disabled = false;
                 disabled_button_id = button_id;
-
-                var video = document.getElementById('video');
-                var new_src = 'http://104.248.250.36/dash/' + button_id + '/stream.mpd';
-
-                video.pause();
-
-                video.src = new_src;
-                video.load();
-                video.play();
+                player.attachSource("dash/" + button_id + "/stream.mpd");
             }
-        </script>
-
-        <script type="text/javascript" src="/dash.all.min.js"></script>
-        <script type="text/javascript">
-            (function(){
-                var url1 = "https://dash.akamaized.net/envivio/EnvivioDash3/manifest.mpd";
-                var url2 = "https://104.248.250.36/dash/0/stream.mpd";
-                var url = "dash/0/stream.mpd";
-                var player = dashjs.MediaPlayer().create();
-                player.initialize(document.querySelector("#videoPlayer"), url, true);
-            })();
         </script>
     </body>
 </html>
